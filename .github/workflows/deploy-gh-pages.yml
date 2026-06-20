@@ -1,4 +1,4 @@
-﻿name: Deploy to GitHub Pages
+﻿name: Deploy static docs to GitHub Pages
 
 on:
   push:
@@ -8,34 +8,20 @@ permissions:
   contents: write
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build static site
-        run: npm run build
-        env:
-          NEXT_PUBLIC_BASE_PATH: /HHP
-          NEXT_PUBLIC_ASSET_PREFIX: /HHP/
-
       - name: Disable Jekyll
-        run: touch out/.nojekyll
+        run: touch docs/.nojekyll
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy docs to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
-          publish_dir: ./out
+          publish_dir: ./docs
           publish_branch: gh-pages
           github_token: ${{ secrets.GITHUB_TOKEN }}
           force_orphan: true
