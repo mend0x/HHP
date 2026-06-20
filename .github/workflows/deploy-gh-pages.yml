@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+﻿name: Deploy to GitHub Pages
 
 on:
   push:
@@ -7,6 +7,7 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
@@ -25,9 +26,13 @@ jobs:
           NEXT_PUBLIC_BASE_PATH: /HHP
           NEXT_PUBLIC_ASSET_PREFIX: /HHP/
 
+      - name: Disable Jekyll
+        run: touch out/.nojekyll
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           publish_dir: ./out
           publish_branch: gh-pages
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          force_orphan: true

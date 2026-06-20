@@ -1,23 +1,15 @@
-import type { NextConfig } from "next";
+﻿import type { NextConfig } from "next";
+
+const isProd = process.env.NODE_ENV === "production";
 
 const nextConfig: NextConfig = {
-  /* Security & Performance Configuration */
-
-  // Build for static export so the site can be published on GitHub Pages
   output: "export",
-  assetPrefix: process.env.NEXT_PUBLIC_ASSET_PREFIX || "./",
-
-  // Enable compression
-  compress: true,
-
-  // Optimize production builds
-  productionBrowserSourceMaps: false,
-
-  // Environment variables
-  env: {
-    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+  assetPrefix: isProd ? "/HHP/" : "",
+  basePath: isProd ? "/HHP" : "",
+  trailingSlash: true,
+  images: {
+    unoptimized: true,
   },
 };
 
 export default nextConfig;
-
